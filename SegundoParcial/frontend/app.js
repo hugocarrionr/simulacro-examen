@@ -1,5 +1,5 @@
 // --- ¡IMPORTANTE! RELLENA ESTO CON TUS DATOS ---
-const API_URL = "https://simulacro-examen.onrender.com";
+const API_URL = "https://simulacro-examen.onrender.com"; // nuevo cambio
 
 const CLOUD_NAME = "dly4a0pgx"; 
 const CLOUDINARY_PRESET = "examen_preset"; 
