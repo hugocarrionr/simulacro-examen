@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel, Field, EmailStr
+from datetime import datetime
 from typing import List, Optional
 from pymongo import MongoClient
 from datetime import datetime, timedelta
@@ -26,6 +27,7 @@ client = MongoClient(os.getenv("MONGO_URI"))
 db = client[os.getenv("MONGO_DB", "test_db")]
 users_collection = db["usuarios"]
 lugares_collection = db["lugares"]
+visitas_collection = db["visitas"]
 
 SECRET_KEY = os.getenv("SECRET_KEY", "secret")
 ALGORITHM = "HS256"
@@ -50,6 +52,11 @@ class LugarCreate(LugarBase):
 class LugarOut(LugarBase):
     id: str
     owner: str
+
+class Visita(BaseModel):
+    visitante: str
+    visitado: str
+    fecha: datetime
 
 # 3. SEGURIDAD
 def get_password_hash(password):
@@ -97,9 +104,19 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     return {"access_token": token, "token_type": "bearer"}
 
 @app.get("/lugares", response_model=List[LugarOut])
-def get_lugares():
+def get_lugares(email: Optional[str] = None, current_user: str = Depends(get_current_user)):
+    target_user = email if email else current_user
+    
+    # Si estoy viendo el mapa de otro, registro la visita
+    if email and email != current_user:
+        visitas_collection.insert_one({
+            "visitante": current_user,
+            "visitado": email,
+            "fecha": datetime.now()
+        })
+
     lugares = []
-    for doc in lugares_collection.find():
+    for doc in lugares_collection.find({"owner": target_user}):
         lugares.append({
             "id": str(doc["_id"]),
             "nombre": doc["nombre"],
@@ -117,3 +134,14 @@ def create_lugar(lugar: LugarCreate, current_user: str = Depends(get_current_use
     new_lugar["owner"] = current_user
     result = lugares_collection.insert_one(new_lugar)
     return {"id": str(result.inserted_id), **new_lugar}
+
+@app.get("/mis-visitas")
+def get_mis_visitas(current_user: str = Depends(get_current_user)):
+    visitas = []
+    # Buscamos quién me ha visitado a mí, ordenado por fecha descendente
+    for doc in visitas_collection.find({"visitado": current_user}).sort("fecha", -1):
+        visitas.append({
+            "visitante": doc["visitante"],
+            "fecha": doc["fecha"]
+        })
+    return visitas
