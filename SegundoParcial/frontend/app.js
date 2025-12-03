@@ -1,5 +1,5 @@
 // --- ¡IMPORTANTE! RELLENA ESTO CON TUS DATOS ---
-const API_URL = "http://localhost:8000"; // <--- Tu URL de Render (sin barra al final)
+const API_URL = "https://simulacro-examen.onrender.com"; // <--- Tu URL de Render (sin barra al final)
 
 const CLOUD_NAME = "dly4a0pgx"; // <--- ¡RELLENA ESTO!
 const CLOUDINARY_PRESET = "examen_preset"; 
