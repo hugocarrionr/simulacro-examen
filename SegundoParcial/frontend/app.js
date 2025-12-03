@@ -1,7 +1,7 @@
 // --- ¡IMPORTANTE! RELLENA ESTO CON TUS DATOS ---
-const API_URL = "https://simulacro-examen.onrender.com"; // <--- Tu URL de Render (sin barra al final)
+const API_URL = "https://simulacro-examen.onrender.com";
 
-const CLOUD_NAME = "dly4a0pgx"; // <--- ¡RELLENA ESTO!
+const CLOUD_NAME = "dly4a0pgx"; 
 const CLOUDINARY_PRESET = "examen_preset"; 
 const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
