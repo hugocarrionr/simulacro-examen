@@ -242,3 +242,17 @@ async function cargarHistorialVisitas() {
         console.error("Error cargando historial", e);
     }
 }
+
+window.onload = function() {
+    // 1. PRIMERO: Si no hay token, nos vamos y CORTAMOS la ejecución
+    if (!localStorage.getItem('token')) {
+        window.location.href = 'login.html';
+        return; // <--- ¡ESTO ES LA CLAVE! El return impide que se lea lo de abajo.
+    }
+
+    // 2. Solo si hay token ejecutamos el resto
+    checkAuth(); 
+    initMap();
+    cargarLugares();
+    cargarHistorialVisitas();
+};
