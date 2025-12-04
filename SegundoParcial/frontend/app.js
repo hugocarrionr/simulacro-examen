@@ -156,7 +156,7 @@ async function crearLugar() {
 }
 
 // --- 6. CARGA DE DATOS ---
-async function cargarLugares(emailTarget = null) {
+    async function cargarLugares(emailTarget = null) {
     let url = `${API_URL}/lugares`;
     if (emailTarget) url += `?email=${emailTarget}`;
     
@@ -171,10 +171,15 @@ async function cargarLugares(emailTarget = null) {
         
         const div = document.getElementById('lista-lugares');
         if(div) {
-            div.innerHTML = "<h3>Lugares</h3>";
+            div.innerHTML = "<h3><span class='iconify' data-icon='lucide:map'></span> Lugares</h3>";
             lugares.forEach(l => {
-                const img = l.imagen_url ? `<img src="${l.imagen_url}" style="width:100px;display:block;">` : '';
-                div.innerHTML += `<div style="border-bottom:1px solid #ccc; margin:5px;"><b>${l.nombre}</b><br>${l.descripcion||''}${img}</div>`;
+                const img = l.imagen_url ? `<img src="${l.imagen_url}" class="place-img">` : '';
+                div.innerHTML += `
+                    <div class="place-card">
+                        <div class="place-header">${l.nombre}</div>
+                        <div class="place-desc">${l.descripcion||''}</div>
+                        ${img}
+                    </div>`;
                 if(map) L.marker([l.latitud, l.longitud]).addTo(map).bindPopup(`<b>${l.nombre}</b><br>${img}`);
             });
         }
@@ -189,7 +194,14 @@ async function cargarHistorialVisitas() {
         const ul = document.getElementById('ul-visitas');
         if(ul) {
             ul.innerHTML = "";
-            visitas.forEach(v => ul.innerHTML += `<li>${v.visitante} - ${new Date(v.fecha).toLocaleDateString()}</li>`);
+            visitas.forEach(v => {
+                ul.innerHTML += `
+                <li class="visit-item">
+                    <span class="iconify" data-icon="lucide:user"></span> 
+                    <strong>${v.visitante}</strong> 
+                    <span style="color:var(--text-muted); font-size:0.85em; margin-left:auto;">${new Date(v.fecha).toLocaleDateString()}</span>
+                </li>`;
+            });
         }
     } catch(e) {}
 }

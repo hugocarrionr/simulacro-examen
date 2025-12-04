@@ -3,60 +3,100 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulacro Examen - Mapa</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 </head>
 
 <body>
+    <!-- Aura Background -->
+    <div class="aura-bg"></div>
+    <div class="aura-beam"></div>
+
     <div class="container">
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h1>Mi Mapa (Simulacro)</h1>
-            <button onclick="logout()" style="background-color: #dc3545;">Cerrar Sesión</button>
-        </div>
-
-        <div
-            style="background:#e9ecef; padding:15px; margin-bottom:15px; border-radius:8px; border: 1px solid #ced4da;">
-            <h3>🕵️‍♀️ Modo Visita</h3>
-            <div style="display:flex; gap:10px;">
-                <input type="text" id="emailBusqueda" placeholder="Email del usuario a visitar" style="flex:1;">
-                <button onclick="verUsuario()" style="background:#17a2b8;">Ver Mapa</button>
-                <button onclick="verMio()" style="background:#6c757d;">Volver a mi Mapa</button>
-            </div>
-        </div>
-
-        <div id="map"></div>
-
-        <div class="form-box" id="caja-crear">
-            <h3>Añadir Nuevo Lugar</h3>
-            <input type="text" id="nombre" placeholder="Nombre de Ciudad o País" required>
-
-            <button onclick="autocompletarCoords()"
-                style="background:#ffc107; color:black; margin-bottom:10px; font-weight:bold;">
-                📍 Buscar Coordenadas Automáticas
+        <header class="app-header">
+            <h1 class="app-title">Mi Mapa (Simulacro)</h1>
+            <button onclick="logout()" class="btn btn-danger">
+                <span class="iconify" data-icon="lucide:log-out"></span> Cerrar Sesión
             </button>
+        </header>
 
-            <input type="text" id="descripcion" placeholder="Descripción breve">
-            <label style="display: block; margin-top: 10px;">Foto:</label>
-            <input type="file" id="imagen" accept="image/*">
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <input type="text" id="lat" placeholder="Latitud" readonly>
-                <input type="text" id="lng" placeholder="Longitud" readonly>
+        <div class="card mode-card">
+            <h3><span class="iconify" data-icon="lucide:users"></span> Modo Visita</h3>
+            <div class="flex-row">
+                <input type="text" id="emailBusqueda" placeholder="Email del usuario a visitar"
+                    class="input-field flex-1">
+                <button onclick="verUsuario()" class="btn btn-primary">
+                    <span class="iconify" data-icon="lucide:search"></span> Ver Mapa
+                </button>
+                <button onclick="verMio()" class="btn btn-secondary">
+                    <span class="iconify" data-icon="lucide:map-pin"></span> Volver a mi Mapa
+                </button>
             </div>
-            <button onclick="crearLugar()" style="width: 100%; margin-top: 10px; background-color: #28a745;">Guardar
-                Lugar</button>
         </div>
 
-        <div id="seccion-visitas"
-            style="margin-top:20px; border:1px solid #ccc; padding:15px; border-radius:8px; background-color:#fff3cd;">
-            <h3>👀 Historial de Visitas Recibidas</h3>
-            <ul id="ul-visitas" style="padding-left:20px;">
-                <li>Cargando visitas...</li>
-            </ul>
+        <div id="map-wrapper">
+            <div id="map"></div>
         </div>
 
-        <div id="lista-lugares" style="margin-top:20px;">
+        <div class="card form-card" id="caja-crear">
+            <h3><span class="iconify" data-icon="lucide:plus-circle"></span> Añadir Nuevo Lugar</h3>
+
+            <div class="form-group">
+                <label class="form-label">Nombre del Lugar</label>
+                <input type="text" id="nombre" placeholder="Ej: Madrid, España" class="input-field" required>
+            </div>
+
+            <div class="form-group">
+                <button onclick="autocompletarCoords()" class="btn btn-warning" style="width: 100%;">
+                    <span class="iconify" data-icon="lucide:map"></span> Buscar Coordenadas Automáticas
+                </button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Descripción</label>
+                <input type="text" id="descripcion" placeholder="Descripción breve" class="input-field">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Foto (Opcional)</label>
+                <input type="file" id="imagen" accept="image/*" class="input-field">
+            </div>
+
+            <div class="form-row">
+                <div class="flex-1">
+                    <label class="form-label">Latitud</label>
+                    <input type="text" id="lat" placeholder="Latitud" class="input-field" readonly>
+                </div>
+                <div class="flex-1">
+                    <label class="form-label">Longitud</label>
+                    <input type="text" id="lng" placeholder="Longitud" class="input-field" readonly>
+                </div>
+            </div>
+
+            <button onclick="crearLugar()" class="btn btn-success" style="width: 100%; margin-top: 16px;">
+                <span class="iconify" data-icon="lucide:save"></span> Guardar Lugar
+            </button>
+        </div>
+
+        <div id="seccion-visitas" class="card visits-panel">
+            <h3><span class="iconify" data-icon="lucide:history"></span> Historial de Visitas Recibidas</h3>
+            <div class="visits-list-container">
+                <ul id="ul-visitas" class="visits-list">
+                    <li class="visit-item">Cargando visitas...</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="lista-lugares" class="places-grid">
             <p>Cargando lugares...</p>
         </div>
     </div>

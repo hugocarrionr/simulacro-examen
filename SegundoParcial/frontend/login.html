@@ -1,20 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Examen</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <style>
+        body {
+            align-items: center;
+            /* Center vertically for login */
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container">
-        <h2>Iniciar Sesión</h2>
-        <form id="loginForm">
-            <input type="text" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Contraseña" required>
-            <button type="submit">Entrar</button>
-        </form>
-        <p id="errorMsg" class="error">Credenciales incorrectas</p>
+    <!-- Aura Background -->
+    <div class="aura-bg"></div>
+    <div class="aura-beam"></div>
+
+    <div class="login-container">
+        <div class="card form-card" style="text-align: center;">
+            <h2
+                style="margin-bottom: 24px; font-size: 1.8rem; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                <span class="iconify" data-icon="lucide:lock"
+                    style="vertical-align: middle; margin-right: 8px; color: var(--primary);"></span>
+                Iniciar Sesión
+            </h2>
+
+            <form id="loginForm" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <input type="text" id="email" placeholder="Email" class="input-field" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <input type="password" id="password" placeholder="Contraseña" class="input-field" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">
+                    Entrar <span class="iconify" data-icon="lucide:arrow-right"></span>
+                </button>
+            </form>
+
+            <p id="errorMsg" class="error" style="color: var(--danger); margin-top: 16px; display: none;">Credenciales
+                incorrectas</p>
+        </div>
     </div>
+
     <script src="app.js"></script>
 </body>
+
 </html>
